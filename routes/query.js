@@ -46,7 +46,7 @@ router.post('/create', async (req, res) => {
         return;
     }
 
-    let record;
+    let dbRecord;
     try {
         let user = getAuthorizedUser(req);
         if (!hasPermission(collectionName, "create", user, record)) {
@@ -58,7 +58,7 @@ router.post('/create', async (req, res) => {
 
         user && (record.userId = getAuthorizedUser(req).id);
 
-        record = await models.instance[collectionName].create(record);
+        dbRecord = await models.instance[collectionName].create(record);
     } catch (error) {
         console.log("Create Error", error);
         res.status(500).json(
@@ -67,7 +67,7 @@ router.post('/create', async (req, res) => {
     }
 
     res.status(200).json(
-        new Response(true, {record}).json()
+        new Response(true, {record: dbRecord}).json()
     );
 })
 
@@ -81,7 +81,7 @@ router.post('/update', async (req, res) => {
         return;
     }
 
-    let record;
+    let dbRecord;
     try {
         let options = {
             where: {
@@ -97,18 +97,18 @@ router.post('/update', async (req, res) => {
             return;
         }
 
-        record = await models.instance[collectionName].findOne(options);
+        dbRecord = await models.instance[collectionName].findOne(options);
 
-        if (!record) {
+        if (!dbRecord) {
             res.status(404).json(
                 new Response(false, {}, "Record not found").json()
             );
             return;
         }
 
-        await record.update(record);
+        await dbRecord.update(record);
 
-        record = await record.reload();
+        dbRecord = await dbRecord.reload();
     } catch (error) {
         console.log("Create Error", error);
         res.status(500).json(
@@ -117,7 +117,7 @@ router.post('/update', async (req, res) => {
     }
 
     res.status(200).json(
-        new Response(true, {record}).json()
+        new Response(true, {record: dbRecord}).json()
     );
 })
 
