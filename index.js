@@ -17,6 +17,13 @@ app.use(cors());
 app.options('*', cors());
 app.use(express.json({ limit: "50mb" }));
 
+var edit = require('./routes/edit');
+var query = require('./routes/query');
+
+
+app.use(baseRoute + '/edit', edit);
+app.use(baseRoute + '/query', query);
+
 app.get(baseRoute + '/test', function (req, res) {
     res.json(
         {message: "App Tested Successfully"}
@@ -30,10 +37,14 @@ app.get(baseRoute + '/testdb', async function (req, res) {
     );
 });
 
-initCollections(dbName, dbUser, dbPassword, groupId).then(() => {
-    app.listen(process.env.PORT, () => {
-        console.log(`${appName} app of ${websiteName} is running on port ${port} successfully`);
-    });
+initCollections(dbName, dbUser, dbPassword, groupId).then((success, error) => {
+    if (success) {
+        app.listen(process.env.PORT, () => {
+            console.log(`${appName} app of ${websiteName} is running on port ${port} successfully`);
+        });
+    } else {
+        throw new Error(`${appName} app of ${websiteName} error: Can't init collections of website`)
+    }
 }).catch(err => {
     // Deal with the fact the chain failed
     console.log(`${appName} app of ${websiteName} error: Can't init collections of website`);
