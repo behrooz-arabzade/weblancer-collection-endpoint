@@ -19,9 +19,8 @@ app.use(express.json({ limit: "50mb" }));
 var edit = require('./routes/edit');
 var query = require('./routes/query');
 
-
-// app.use(baseRoute + '/edit', edit);
-// app.use(baseRoute + '/query', query);
+app.use(baseRoute + '/edit', edit);
+app.use(baseRoute + '/query', query);
 
 console.log("Test Route", baseRoute + '/test')
 app.get(baseRoute + '/test', function (req, res) {
