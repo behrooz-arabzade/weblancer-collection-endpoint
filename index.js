@@ -37,6 +37,7 @@ app.get(baseRoute + '/testdb', async function (req, res) {
     );
 });
 
+console.log("dbName", dbName)
 initCollections(dbName, dbUser, dbPassword, groupId).then((success, error) => {
     if (success) {
         app.listen(process.env.PORT, () => {
