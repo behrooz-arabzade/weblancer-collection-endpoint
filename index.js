@@ -1,4 +1,3 @@
-require('dotenv').config();
 const { initCollections, models } = require("weblancer-collection");
 const express = require('express');
 const cors = require('cors');
@@ -40,7 +39,7 @@ app.get(baseRoute + '/testdb', async function (req, res) {
 console.log("dbName", dbName)
 initCollections(dbName, dbUser, dbPassword, groupId).then((success, error) => {
     if (success) {
-        app.listen(process.env.PORT, () => {
+        app.listen(port, () => {
             console.log(`${appName} app of ${websiteName} is running on port ${port} successfully`);
         });
     } else {
