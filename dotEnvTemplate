@@ -1,0 +1,9 @@
+APP_NAME={appName}
+DBNAME={dbName}
+DBUSER={dbUser}
+DBPASSWORD={dbPassword}
+GROUP_ID={groupId}
+WEBSITE_NAME={websiteName}
+PORT={port}
+BASE_ROUTE={baseRoute}
+JWT_ACCESS_TOKEN_SECRET={accesstocken}
