@@ -9,7 +9,7 @@ const dbPassword = process.env.DBPASSWORD;
 const groupId = process.env.GROUP_ID;
 const websiteName = process.env.WEBSITE_NAME;
 const port = process.env.PORT;
-const baseRoute = process.env.BASE_ROUTE;
+const baseRoute = '/' + process.env.BASE_ROUTE;
 
 let app = express();
 app.use(cors());
