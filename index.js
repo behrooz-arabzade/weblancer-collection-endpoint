@@ -52,3 +52,7 @@ initCollections(dbName, dbUser, dbPassword, groupId).then((success, error) => {
     throw new Error(`${appName} app of ${websiteName} error: Can't init collections of website`)
 });
 
+setInterval(() => {
+    let used = process.memoryUsage().heapUsed / 1024 / 1024;
+    console.log(`The script uses approximately ${Math.round(used * 100) / 100} MB`);
+}, 10000);
