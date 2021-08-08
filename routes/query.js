@@ -110,7 +110,7 @@ router.post('/update', async (req, res) => {
 
         dbRecord = await dbRecord.reload();
     } catch (error) {
-        console.log("Create Error", error);
+        console.log("Update Error", error);
         res.status(500).json(
             new Response(false, {}, error.message).json()
         );
@@ -118,6 +118,54 @@ router.post('/update', async (req, res) => {
 
     res.status(200).json(
         new Response(true, {record: dbRecord}).json()
+    );
+})
+
+router.post('/delete', async (req, res) => {
+    let {collectionName, record} = req.body;
+
+    if (!models.instance[collectionName]) {
+        res.status(404).json(
+            new Response(false, {}, "Collection not found").json()
+        );
+        return;
+    }
+
+    let dbRecord;
+    try {
+        let options = {
+            where: {
+                id: record.id
+            }
+        };
+
+        let user = getAuthorizedUser(req);
+        if (!hasPermission(collectionName, "delete", user, record, options)) {
+            res.status(401).json(
+                new Response(false, {}, "Access Denied !!!").json()
+            );
+            return;
+        }
+
+        dbRecord = await models.instance[collectionName].findOne(options);
+
+        if (!dbRecord) {
+            res.status(404).json(
+                new Response(false, {}, "Record not found").json()
+            );
+            return;
+        }
+
+        await dbRecord.destroy();
+    } catch (error) {
+        console.log("Delete Error", error);
+        res.status(500).json(
+            new Response(false, {}, error.message).json()
+        );
+    }
+
+    res.status(200).json(
+        new Response(true, {record}).json()
     );
 })
 
@@ -134,7 +182,7 @@ async function hasPermission (collectionName, type, user, record, options) {
 
         let acl = collection.metadata.acl;
 
-        if (!acl) 
+        if (!acl)
             return {
                 allow: true,
                 aclType: acl[type]
