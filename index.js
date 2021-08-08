@@ -56,5 +56,5 @@ setInterval(() => {
     let used = process.memoryUsage().heapUsed / 1024 / 1024;
     let rss = process.memoryUsage().rss / 1024 / 1024;
     console.log(`The script uses approximately heap ${Math.round(used * 100) / 100} MB`);
-    console.log(`The script uses approximately rss${Math.round(rss * 100) / 100} MB`);
+    console.log(`The script uses approximately rss ${Math.round(rss * 100) / 100} MB`);
 }, 10000);
