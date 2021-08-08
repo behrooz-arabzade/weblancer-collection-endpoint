@@ -19,8 +19,8 @@ app.use(express.json({ limit: "50mb" }));
 var edit = require('./routes/edit');
 var query = require('./routes/query');
 
-app.use(baseRoute + '/edit', edit);
-app.use(baseRoute + '/query', query);
+app.use(baseRoute + '/collection/edit', edit);
+app.use(baseRoute + '/collection/query', query);
 
 console.log("Test Route", baseRoute + '/test')
 app.get(baseRoute + '/test', function (req, res) {
@@ -51,10 +51,3 @@ initCollections(dbName, dbUser, dbPassword, groupId).then((success, error) => {
     console.log(err);
     throw new Error(`${appName} app of ${websiteName} error: Can't init collections of website`)
 });
-
-setInterval(() => {
-    let used = process.memoryUsage().heapUsed / 1024 / 1024;
-    let rss = process.memoryUsage().rss / 1024 / 1024;
-    console.log(`The script uses approximately heap ${Math.round(used * 100) / 100} MB`);
-    console.log(`The script uses approximately rss ${Math.round(rss * 100) / 100} MB`);
-}, 10000);
