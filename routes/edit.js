@@ -4,7 +4,7 @@ let router = express.Router();
 let Response = require('../utils/response');
 
 router.post('/create', async (req, res) => {
-    let {name, displayName, description, acl, isApp} = req.body;
+    let {name, displayName, description, metadata, groupId, isApp} = req.body;
 
     if (req.user.role !== "admin") {
         res.status(401).json(
@@ -12,8 +12,8 @@ router.post('/create', async (req, res) => {
         );
     }
 
-    let {success, collections, error, errorStatusCode} = 
-        await createCollection(name, displayName, description, acl, isApp);
+    let {success, collections, error, errorStatusCode} =
+        await createCollection(name, displayName, description, groupId, metadata, isApp);
 
     if (success) {
         res.status(201).json(
@@ -27,7 +27,7 @@ router.post('/create', async (req, res) => {
 })
 
 router.post('/updatecollection', async (req, res) => {
-    let {collectionName, displayName, description, metadata} = req.body;
+    let {collectionName, displayName, description, groupId, metadata} = req.body;
 
     if (req.user.role !== "admin") {
         res.status(401).json(
@@ -35,8 +35,8 @@ router.post('/updatecollection', async (req, res) => {
         );
     }
 
-    let {success, collections, error, errorStatusCode} = 
-        await updateCollection(collectionName, displayName, description, metadata);
+    let {success, collections, error, errorStatusCode} =
+        await updateCollection(collectionName, displayName, description, groupId, metadata);
 
     if (success) {
         res.status(201).json(
@@ -59,7 +59,7 @@ router.post('/updateschema', async (req, res) => {
         );
     }
 
-    let {success, collection, error, errorStatusCode} = 
+    let {success, collection, error, errorStatusCode} =
         await updateSchema(collectionName, schema);
 
     if (success) {
@@ -82,7 +82,7 @@ router.post('/addfield', async (req, res) => {
         );
     }
 
-    let {success, collection, error, errorStatusCode} = 
+    let {success, collection, error, errorStatusCode} =
         await addField(collectionName, name, key, type, description, options);
 
     if (success) {
@@ -105,7 +105,7 @@ router.post('/updatefield', async (req, res) => {
         );
     }
 
-    let {success, collection, error, errorStatusCode} = 
+    let {success, collection, error, errorStatusCode} =
         await updateField(collectionName, name, key, type, description, options);
 
     if (success) {
