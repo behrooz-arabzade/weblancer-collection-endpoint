@@ -1,7 +1,28 @@
 let express = require('express');
-const { models, DataTypes, createCollection, addField } = require('weblancer-collection');
+const { models, getAllCollections, createCollection, addField } = require('weblancer-collection');
 let router = express.Router();
 let Response = require('../utils/response');
+
+router.post('/collections', async (req, res) => {
+    if (req.user.role !== "admin") {
+        res.status(401).json(
+            new Response(false, {}, "Access Denied !!!").json()
+        );
+    }
+
+    let {success, collections, error, errorStatusCode} =
+        await getAllCollections();
+
+    if (success) {
+        res.status(201).json(
+            new Response(true, {collections}).json()
+        );
+    } else {
+        res.status(errorStatusCode).json(
+            new Response(false, {}, error).json()
+        );
+    }
+})
 
 router.post('/create', async (req, res) => {
     let {name, displayName, description, metadata, groupId, isApp} = req.body;
