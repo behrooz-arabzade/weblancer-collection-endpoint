@@ -26,13 +26,14 @@ router.post('/collections', async (req, res) => {
 
 router.post('/initsandbox', async (req, res) => {
     let {sandbox} = req.body;
+    console.log("/initsandbox", sandbox);
 
-    let {success, collections, error, errorStatusCode} =
+    let {success, error, errorStatusCode} =
         await initSandBox(sandbox);
 
     if (success) {
         res.status(200).json(
-            new Response(true, {collections}).json()
+            new Response(true, {}).json()
         );
     } else {
         res.status(errorStatusCode).json(
