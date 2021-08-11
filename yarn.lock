@@ -865,10 +865,10 @@ vary@^1, vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-weblancer-collection@0.0.7-beta:
-  version "0.0.7-beta"
-  resolved "https://registry.yarnpkg.com/weblancer-collection/-/weblancer-collection-0.0.7-beta.tgz#4d95645012f723ddc9e3bb4c52ebebe44c46026d"
-  integrity sha512-+RD5bDc/8fSbjd7PPXDY5ENQk9Di4Rb6gzKUIf09AgJgI+tMKYxUcnhHujpiLklLEASC2p9cjFC7mhDrs6bA7g==
+weblancer-collection@^0.0.15-beta:
+  version "0.0.15-beta"
+  resolved "https://registry.yarnpkg.com/weblancer-collection/-/weblancer-collection-0.0.15-beta.tgz#b632367169d6733ad1d9dfcadc9d14e59c1d64e5"
+  integrity sha512-WxUoZbu0KdoIQqYO0w/ypvh7cBJhVB7ZnTK46LR/F/agpoXr3o9xcuFdueLL0aVkasoP4CF0Ynmwa4WCNMIQzA==
   dependencies:
     deep-diff "^0.3.8"
     js-beautify "^1.14.0"

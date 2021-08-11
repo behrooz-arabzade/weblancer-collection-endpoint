@@ -1,5 +1,5 @@
 let express = require('express');
-const { models, getAllCollections, createCollection, addField } = require('weblancer-collection');
+const { models, getAllCollections, createCollection, addField, initSandBox } = require('weblancer-collection');
 let router = express.Router();
 let Response = require('../utils/response');
 
@@ -15,6 +15,23 @@ router.post('/collections', async (req, res) => {
 
     if (success) {
         res.status(201).json(
+            new Response(true, {collections}).json()
+        );
+    } else {
+        res.status(errorStatusCode).json(
+            new Response(false, {}, error).json()
+        );
+    }
+})
+
+router.post('/initsandbox', async (req, res) => {
+    let {sandbox} = req.body;
+
+    let {success, collections, error, errorStatusCode} =
+        await initSandBox(sandbox);
+
+    if (success) {
+        res.status(200).json(
             new Response(true, {collections}).json()
         );
     } else {
