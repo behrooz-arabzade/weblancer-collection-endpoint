@@ -181,6 +181,7 @@ router.post('/syncdata', async (req, res) => {
             new Response(true, {updatedRecords: updatedRecords.toJSON()}).json()
         );
     } catch (error) {
+        console.log("syncdata error", error)
         res.status(500).json(
             new Response(false, {}, "Faild to update collection").json()
         );
