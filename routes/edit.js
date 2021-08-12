@@ -175,7 +175,9 @@ router.post('/syncdata', async (req, res) => {
             return;
         }
 
-        let updatedRecords = await models.instance[collectionName].bulkCreate(records);
+        let updatedRecords = await models.instance[collectionName].bulkCreate(records, {
+            ignoreDuplicates: true
+        });
 
         res.status(200).json(
             new Response(true, {updatedRecords: updatedRecords.toJSON()}).json()
