@@ -4,11 +4,11 @@ let router = express.Router();
 let Response = require('../utils/response');
 
 router.get('/collections', async (req, res) => {
-    if (req.user.role !== "admin") {
-        res.status(401).json(
-            new Response(false, {}, "Access Denied !!!").json()
-        );
-    }
+    // if (req.user.role !== "admin") {
+    //     res.status(401).json(
+    //         new Response(false, {}, "Access Denied !!!").json()
+    //     );
+    // }
 
     let {success, collections, error, errorStatusCode} =
         await getAllCollections();
@@ -45,11 +45,11 @@ router.post('/initsandbox', async (req, res) => {
 router.post('/create', async (req, res) => {
     let {name, displayName, description, metadata, groupId, isApp} = req.body;
 
-    if (req.user.role !== "admin") {
-        res.status(401).json(
-            new Response(false, {}, "Access Denied !!!").json()
-        );
-    }
+    // if (req.user.role !== "admin") {
+    //     res.status(401).json(
+    //         new Response(false, {}, "Access Denied !!!").json()
+    //     );
+    // }
 
     let {success, collections, error, errorStatusCode} =
         await createCollection(name, displayName, description, groupId, metadata, isApp);
@@ -68,11 +68,11 @@ router.post('/create', async (req, res) => {
 router.post('/updatecollection', async (req, res) => {
     let {collectionName, displayName, description, groupId, metadata} = req.body;
 
-    if (req.user.role !== "admin") {
-        res.status(401).json(
-            new Response(false, {}, "Access Denied !!!").json()
-        );
-    }
+    // if (req.user.role !== "admin") {
+    //     res.status(401).json(
+    //         new Response(false, {}, "Access Denied !!!").json()
+    //     );
+    // }
 
     let {success, collections, error, errorStatusCode} =
         await updateCollection(collectionName, displayName, description, groupId, metadata);
@@ -92,11 +92,11 @@ router.post('/updatecollection', async (req, res) => {
 router.post('/updateschema', async (req, res) => {
     let {collectionName, schema} = req.body;
 
-    if (req.user.role !== "admin") {
-        res.status(401).json(
-            new Response(false, {}, "Access Denied !!!").json()
-        );
-    }
+    // if (req.user.role !== "admin") {
+    //     res.status(401).json(
+    //         new Response(false, {}, "Access Denied !!!").json()
+    //     );
+    // }
 
     let {success, collection, error, errorStatusCode} =
         await updateSchema(collectionName, schema);
@@ -115,11 +115,11 @@ router.post('/updateschema', async (req, res) => {
 router.post('/addfield', async (req, res) => {
     let {collectionName, name, key, type, description, options} = req.body;
 
-    if (req.user.role !== "admin") {
-        res.status(401).json(
-            new Response(false, {}, "Access Denied !!!").json()
-        );
-    }
+    // if (req.user.role !== "admin") {
+    //     res.status(401).json(
+    //         new Response(false, {}, "Access Denied !!!").json()
+    //     );
+    // }
 
     let {success, collection, error, errorStatusCode} =
         await addField(collectionName, name, key, type, description, options);
@@ -138,11 +138,11 @@ router.post('/addfield', async (req, res) => {
 router.post('/updatefield', async (req, res) => {
     let {collectionName, name, key, type, description, options} = req.body;
 
-    if (req.user.role !== "admin") {
-        res.status(401).json(
-            new Response(false, {}, "Access Denied !!!").json()
-        );
-    }
+    // if (req.user.role !== "admin") {
+    //     res.status(401).json(
+    //         new Response(false, {}, "Access Denied !!!").json()
+    //     );
+    // }
 
     let {success, collection, error, errorStatusCode} =
         await updateField(collectionName, name, key, type, description, options);
@@ -161,11 +161,11 @@ router.post('/updatefield', async (req, res) => {
 router.post('/syncdata', async (req, res) => {
     let {collectionName, records} = req.body;
 
-    if (req.user.role !== "admin") {
-        res.status(401).json(
-            new Response(false, {}, "Access Denied !!!").json()
-        );
-    }
+    // if (req.user.role !== "admin") {
+    //     res.status(401).json(
+    //         new Response(false, {}, "Access Denied !!!").json()
+    //     );
+    // }
 
     try {
         if (!models.instance[collectionName]) {
