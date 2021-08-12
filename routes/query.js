@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
 
     let result;
     try {
-        if (!hasPermission(collectionName, "read", getAuthorizedUser(req), undefined, options)) {
+        if (!hasPermission(collectionName, "read", getAuthorizedUser(req), undefined, options).allow) {
             res.status(401).json(
                 new Response(false, {}, "Access Denied !!!").json()
             );
@@ -49,7 +49,7 @@ router.post('/create', async (req, res) => {
     let dbRecord;
     try {
         let user = getAuthorizedUser(req);
-        if (!hasPermission(collectionName, "create", user, record)) {
+        if (!hasPermission(collectionName, "create", user, record).allow) {
             res.status(401).json(
                 new Response(false, {}, "Access Denied !!!").json()
             );
@@ -90,7 +90,7 @@ router.post('/update', async (req, res) => {
         };
 
         let user = getAuthorizedUser(req);
-        if (!hasPermission(collectionName, "update", user, record, options)) {
+        if (!hasPermission(collectionName, "update", user, record, options).allow) {
             res.status(401).json(
                 new Response(false, {}, "Access Denied !!!").json()
             );
@@ -140,7 +140,7 @@ router.post('/delete', async (req, res) => {
         };
 
         let user = getAuthorizedUser(req);
-        if (!hasPermission(collectionName, "delete", user, record, options)) {
+        if (!hasPermission(collectionName, "delete", user, record, options).allow) {
             res.status(401).json(
                 new Response(false, {}, "Access Denied !!!").json()
             );
@@ -180,6 +180,7 @@ async function hasPermission (collectionName, type, user, record, options) {
                 message: "Collection not found"
             };
 
+        console.log("hasPermission", collection)
         let acl = collection.metadata.acl;
 
         if (!acl)
