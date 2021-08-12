@@ -175,12 +175,12 @@ router.post('/syncdata', async (req, res) => {
             return;
         }
 
-        let updatedRecords = await models.instance[collectionName].bulkCreate(records, {
-            ignoreDuplicates: true
-        });
+        for(const record of records) {
+            await models.instance[collectionName].upsert(record);
+        }
 
         res.status(200).json(
-            new Response(true, {updatedRecords}).json()
+            new Response(true, {records}).json()
         );
     } catch (error) {
         console.log("syncdata error", error)
