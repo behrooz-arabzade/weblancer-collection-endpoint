@@ -3,7 +3,7 @@ const { models, getAllCollections, createCollection, addField, initSandBox } = r
 let router = express.Router();
 let Response = require('../utils/response');
 
-router.post('/collections', async (req, res) => {
+router.get('/collections', async (req, res) => {
     if (req.user.role !== "admin") {
         res.status(401).json(
             new Response(false, {}, "Access Denied !!!").json()
