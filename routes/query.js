@@ -180,6 +180,8 @@ async function hasPermission (collectionName, type, user, record, options) {
                 message: "Collection not found"
             };
 
+        collection = collection.toJSON();
+
         console.log("hasPermission", collection)
         let acl = collection.metadata.acl;
 
