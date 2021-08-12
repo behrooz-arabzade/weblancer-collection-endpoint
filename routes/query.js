@@ -16,6 +16,7 @@ router.post('/', async (req, res) => {
 
     let result;
     try {
+        console.log("Query 111");
         if (!hasPermission(collectionName, "read", getAuthorizedUser(req), undefined, options).allow) {
             res.status(401).json(
                 new Response(false, {}, "Access Denied !!!").json()
