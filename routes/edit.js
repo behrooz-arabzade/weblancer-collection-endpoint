@@ -180,7 +180,7 @@ router.post('/syncdata', async (req, res) => {
         });
 
         res.status(200).json(
-            new Response(true, {updatedRecords: updatedRecords.toJSON()}).json()
+            new Response(true, {updatedRecords}).json()
         );
     } catch (error) {
         console.log("syncdata error", error)
