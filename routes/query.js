@@ -16,8 +16,7 @@ router.post('/', async (req, res) => {
 
     let result;
     try {
-        console.log("Query 111");
-        if (!hasPermission(collectionName, "read", getAuthorizedUser(req), undefined, options).allow) {
+        if (! (await hasPermission(collectionName, "read", getAuthorizedUser(req), undefined, options)).allow) {
             res.status(401).json(
                 new Response(false, {}, "Access Denied !!!").json()
             );
@@ -50,7 +49,7 @@ router.post('/create', async (req, res) => {
     let dbRecord;
     try {
         let user = getAuthorizedUser(req);
-        if (!hasPermission(collectionName, "create", user, record).allow) {
+        if (! (await hasPermission(collectionName, "create", user, record)).allow) {
             res.status(401).json(
                 new Response(false, {}, "Access Denied !!!").json()
             );
@@ -91,7 +90,7 @@ router.post('/update', async (req, res) => {
         };
 
         let user = getAuthorizedUser(req);
-        if (!hasPermission(collectionName, "update", user, record, options).allow) {
+        if (! await (hasPermission(collectionName, "update", user, record, options)).allow) {
             res.status(401).json(
                 new Response(false, {}, "Access Denied !!!").json()
             );
@@ -141,7 +140,7 @@ router.post('/delete', async (req, res) => {
         };
 
         let user = getAuthorizedUser(req);
-        if (!hasPermission(collectionName, "delete", user, record, options).allow) {
+        if (! (await hasPermission(collectionName, "delete", user, record, options)).allow) {
             res.status(401).json(
                 new Response(false, {}, "Access Denied !!!").json()
             );
@@ -173,7 +172,6 @@ router.post('/delete', async (req, res) => {
 async function hasPermission (collectionName, type, user, record, options) {
     try {
         // TODO for test
-        return {allow: true};
 
         let {collection} = await getCollection(collectionName);
 
