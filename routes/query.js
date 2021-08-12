@@ -171,7 +171,7 @@ router.post('/delete', async (req, res) => {
 
 async function hasPermission (collectionName, type, user, record, options) {
     try {
-        let collection = await getCollection(collectionName);
+        let {collection} = await getCollection(collectionName);
 
         if (!collection)
             return {
@@ -180,9 +180,6 @@ async function hasPermission (collectionName, type, user, record, options) {
                 message: "Collection not found"
             };
 
-        collection = collection.toJSON();
-
-        console.log("hasPermission", collection)
         let acl = collection.metadata.acl;
 
         if (!acl)
