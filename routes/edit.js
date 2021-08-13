@@ -19,7 +19,7 @@ router.get('/collections', async (req, res) => {
             new Response(true, {collections}).json()
         );
     } else {
-        res.status(errorStatusCode).json(
+        res.status(errorStatusCode || 500).json(
             new Response(false, {}, error).json()
         );
     }
@@ -37,7 +37,7 @@ router.post('/initsandbox', async (req, res) => {
             new Response(true, {}).json()
         );
     } else {
-        res.status(errorStatusCode).json(
+        res.status(errorStatusCode || 500).json(
             new Response(false, {}, error).json()
         );
     }
@@ -60,7 +60,7 @@ router.post('/create', async (req, res) => {
             new Response(true, {collections}).json()
         );
     } else {
-        res.status(errorStatusCode).json(
+        res.status(errorStatusCode || 500).json(
             new Response(false, {}, error).json()
         );
     }
@@ -83,7 +83,7 @@ router.post('/updatecollection', async (req, res) => {
             new Response(true, {collections}).json()
         );
     } else {
-        res.status(errorStatusCode).json(
+        res.status(errorStatusCode || 500).json(
             new Response(false, {}, error).json()
         );
     }
@@ -107,7 +107,7 @@ router.post('/updateschema', async (req, res) => {
             new Response(true, {collection}).json()
         );
     } else {
-        res.status(errorStatusCode).json(
+        res.status(errorStatusCode || 500).json(
             new Response(false, {}, error).json()
         );
     }
@@ -130,7 +130,7 @@ router.post('/addfield', async (req, res) => {
             new Response(true, {collection}).json()
         );
     } else {
-        res.status(errorStatusCode).json(
+        res.status(errorStatusCode || 500).json(
             new Response(false, {}, error).json()
         );
     }
@@ -153,7 +153,7 @@ router.post('/updatefield', async (req, res) => {
             new Response(true, {collection}).json()
         );
     } else {
-        res.status(errorStatusCode).json(
+        res.status(errorStatusCode || 500).json(
             new Response(false, {}, error).json()
         );
     }
