@@ -1,5 +1,5 @@
 let express = require('express');
-const { models, getAllCollections, createCollection, addField, initSandBox } = require('weblancer-collection');
+const { models, getAllCollections, createCollection, addField, initSandBox, updateSchema } = require('weblancer-collection');
 let router = express.Router();
 let Response = require('../utils/response');
 
