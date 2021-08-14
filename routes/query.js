@@ -93,7 +93,7 @@ router.post('/update', async (req, res) => {
         };
 
         let user = getAuthorizedUser(req);
-        if (! await (hasPermission(collectionName, "update", user, record, options)).allow) {
+        if (!(await hasPermission(collectionName, "update", user, record, options)).allow) {
             res.status(401).json(
                 new Response(false, {}, "Access Denied !!!").json()
             );
