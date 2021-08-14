@@ -23,12 +23,15 @@ router.post('/', async (req, res) => {
             return;
         }
 
+        console.log("Query options", options);
         result = await models.instance[collectionName][searchType](options);
     } catch (error) {
         console.log("Query Error", error);
         res.status(500).json(
             new Response(false, {}, error.message).json()
         );
+
+        return;
     }
 
     res.status(200).json(
