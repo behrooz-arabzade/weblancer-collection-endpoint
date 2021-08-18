@@ -27,7 +27,7 @@ app.use(unlessRoute([
     baseRoute + '/testdb',
     baseRoute + '/user/login',
     baseRoute + '/collection/edit/initsandbox',
-], authorizeToken()));
+], authorizeToken));
 
 app.use(baseRoute + '/collection/edit', edit);
 app.use(baseRoute + '/collection/query', query);
