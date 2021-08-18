@@ -10,6 +10,7 @@ router.post('/login', async (req, res) => {
 
     if (adminToken) {
         let publisherBaseUrl = process.env.PUBLISHER_API_URL;
+        console.log("publisherBaseUrl", publisherBaseUrl);
         try{
             let response = await axios.get(`${publisherBaseUrl}/user/checkauthorization`, {
                 params: {
