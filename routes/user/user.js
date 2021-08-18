@@ -22,10 +22,13 @@ router.post('/login', async (req, res) => {
                 }
             });
 
+            console.log("login response 2")
             if (response.statusCode === 200) {
                 let user = response.data.data.user;
 
+                console.log("login response 3", user, response.data)
                 let accessToken = generateAccessToken(user)
+                console.log("login response 4", accessToken)
                 res.json(
                     new Response(true, {accessToken}).json()
                 );
