@@ -10,7 +10,6 @@ router.post('/login', async (req, res) => {
 
     if (adminToken) {
         let publisherBaseUrl = process.env.PUBLISHER_API_URL;
-        console.log("publisherBaseUrl", publisherBaseUrl);
         try{
             let response = await axios.get(`${publisherBaseUrl}/user/checkauthorization`, {
                 params: {
@@ -22,13 +21,10 @@ router.post('/login', async (req, res) => {
                 }
             });
 
-            console.log("login response 2", response)
             if (response.status === 200) {
                 let user = response.data.data.user;
 
-                console.log("login response 3", user, response.data)
                 let accessToken = generateAccessToken(user)
-                console.log("login response 4", accessToken)
                 res.json(
                     new Response(true, {accessToken}).json()
                 );
@@ -44,6 +40,16 @@ router.post('/login', async (req, res) => {
             return;
         }
     }
+
+    let user = {
+        role: "guest"
+        // TODO add additional data
+    };
+
+    let accessToken = generateAccessToken(user)
+    res.json(
+        new Response(true, {accessToken}).json()
+    );
 });
 
 module.exports = router;
