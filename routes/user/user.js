@@ -17,6 +17,7 @@ router.post('/login', async (req, res) => {
                     token: adminToken
                 },
                 headers: {
+                    'authorization': `Bearer ${adminToken}`,
                     'pport': 4000, // TODO make it dynamic
                 }
             });
