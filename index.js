@@ -23,6 +23,8 @@ var query = require('./routes/collection/query');
 var user = require('./routes/user/user');
 
 app.use(unlessRoute([
+    baseRoute + '/test',
+    baseRoute + '/testdb',
     baseRoute + '/user/login',
     baseRoute + '/collection/edit/initsandbox',
 ], authorizeToken()));
