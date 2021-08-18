@@ -7,3 +7,4 @@ WEBSITE_NAME={websiteName}
 PORT={port}
 BASE_ROUTE={baseRoute}
 JWT_ACCESS_TOKEN_SECRET={accesstocken}
+PUBLISHER_API_URL={publisherApiUrl}
