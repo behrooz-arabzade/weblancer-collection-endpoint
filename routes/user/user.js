@@ -11,10 +11,7 @@ router.post('/login', async (req, res) => {
     if (adminToken) {
         let publisherBaseUrl = process.env.PUBLISHER_API_URL;
         try{
-            let response = await axios.get(`${publisherBaseUrl}/user/checkauthorization`, {
-                params: {
-                    token: adminToken
-                },
+            let response = await axios.get(`${publisherBaseUrl}/user/checkauthorization/${adminToken}`, {
                 headers: {
                     'pport': 4000, // TODO make it dynamic
                 }
