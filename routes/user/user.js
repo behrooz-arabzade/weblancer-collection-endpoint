@@ -22,7 +22,7 @@ router.post('/login', async (req, res) => {
                 }
             });
 
-            console.log("login response 2", response.statusCode)
+            console.log("login response 2", response)
             if (response.statusCode === 200) {
                 let user = response.data.data.user;
 
