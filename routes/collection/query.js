@@ -1,8 +1,8 @@
 let express = require('express');
 const { models, getCollection } = require('weblancer-collection');
-const { getAuthorizedUser } = require('../utils/acl');
+const { getAuthorizedUser } = require('../../utils/acl');
 let router = express.Router();
-let Response = require('../utils/response');
+let Response = require('../../utils/response');
 
 router.post('/', async (req, res) => {
     let {collectionName, searchType, options = {}} = req.body;

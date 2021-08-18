@@ -2,7 +2,7 @@ let express = require('express');
 const { models, getAllCollections, createCollection, addField, initSandBox, updateSchema,
     updateCollection, updateField} = require('weblancer-collection');
 let router = express.Router();
-let Response = require('../utils/response');
+let Response = require('../../utils/response');
 
 router.get('/collections', async (req, res) => {
     // if (req.user.role !== "admin") {

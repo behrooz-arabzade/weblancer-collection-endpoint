@@ -1,6 +1,8 @@
 const { initCollections, models } = require("weblancer-collection");
 const express = require('express');
 const cors = require('cors');
+const {unlessRoute} = require("./utils/unlessroute");
+const {authorizeToken} = require("./utils/acl");
 
 const appName = process.env.APP_NAME;
 const dbName = process.env.DBNAME;
@@ -16,13 +18,19 @@ app.use(cors());
 app.options('*', cors());
 app.use(express.json({ limit: "50mb" }));
 
-var edit = require('./routes/edit');
-var query = require('./routes/query');
+var edit = require('./routes/collection/edit');
+var query = require('./routes/collection/query');
+var user = require('./routes/user/user');
+
+app.use(unlessRoute([
+    baseRoute + '/user/login',
+    baseRoute + '/collection/edit/initsandbox',
+], authorizeToken()));
 
 app.use(baseRoute + '/collection/edit', edit);
 app.use(baseRoute + '/collection/query', query);
+app.use(baseRoute + '/user', user);
 
-console.log("Test Route", baseRoute + '/test')
 app.get(baseRoute + '/test', function (req, res) {
     res.json(
         {message: "App Tested Successfully"}
@@ -36,7 +44,6 @@ app.get(baseRoute + '/testdb', async function (req, res) {
     );
 });
 
-console.log("dbName", dbName)
 initCollections(dbName, dbUser, dbPassword, groupId).then((success, error) => {
     if (success) {
         app.listen(port, () => {
@@ -46,7 +53,6 @@ initCollections(dbName, dbUser, dbPassword, groupId).then((success, error) => {
         throw new Error(`${appName} app of ${websiteName} error: Can't init collections of website`)
     }
 }).catch(err => {
-    // Deal with the fact the chain failed
     console.log(`${appName} app of ${websiteName} error: Can't init collections of website`);
     console.log(err);
     throw new Error(`${appName} app of ${websiteName} error: Can't init collections of website`)
