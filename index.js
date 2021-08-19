@@ -21,6 +21,7 @@ app.use(express.json({ limit: "50mb" }));
 var edit = require('./routes/collection/edit');
 var query = require('./routes/collection/query');
 var user = require('./routes/user/user');
+var form = require('./routes/form/form');
 
 app.use(unlessRoute([
     baseRoute + '/test',
@@ -32,6 +33,7 @@ app.use(unlessRoute([
 app.use(baseRoute + '/collection/edit', edit);
 app.use(baseRoute + '/collection/query', query);
 app.use(baseRoute + '/user', user);
+app.use(baseRoute + '/form', form);
 
 app.get(baseRoute + '/test', function (req, res) {
     res.json(
