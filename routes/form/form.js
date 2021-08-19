@@ -14,7 +14,7 @@ router.post('/install', async (req, res) => {
         return;
     }
 
-    let collection = collections.find(c => c.name === "Contacts" && c.groupId === "Form App");
+    let collection = collections.find(c => c.name === "contacts" && c.groupId === "Form App");
 
     if (collection) {
         res.status(200).json(
@@ -24,7 +24,7 @@ router.post('/install', async (req, res) => {
     }
 
     let {success: createSuccess, error: createError, errorStatusCode: createErrorStatusCode} =
-        await createCollection("Contacts", "Contacts",
+        await createCollection("contacts", "Contacts",
             "", "Form App", {}, true);
 
     if (createSuccess) {
