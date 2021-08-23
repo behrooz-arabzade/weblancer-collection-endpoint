@@ -41,38 +41,34 @@ router.post('/', async (req, res) => {
 
 router.post('/create', async (req, res) => {
     let {collectionName, record} = req.body;
+    let user = getAuthorizedUser(req);
 
+    let {status, response} = await create(collectionName, record, user);
+
+    res.status(status).json(response);
+})
+
+let create = async (collectionName, record, user) => {
     if (!models.instance[collectionName]) {
-        res.status(404).json(
-            new Response(false, {}, "Collection not found").json()
-        );
-        return;
+        return {status: 404, response: new Response(false, {}, "Collection not found").json()};
     }
 
     let dbRecord;
     try {
-        let user = getAuthorizedUser(req);
         if (! (await hasPermission(collectionName, "create", user, record)).allow) {
-            res.status(401).json(
-                new Response(false, {}, "Access Denied !!!").json()
-            );
-            return;
+            return {status: 401, response: new Response(false, {}, "Access Denied !!!").json()};
         }
 
-        user && (record.userId = getAuthorizedUser(req).id);
+        user && (record.userId = user.id);
 
         dbRecord = await models.instance[collectionName].create(record);
     } catch (error) {
         console.log("Create Error", error);
-        res.status(500).json(
-            new Response(false, {}, error.message).json()
-        );
+        return {status: 500, response: new Response(false, {}, error.message).json()};
     }
 
-    res.status(200).json(
-        new Response(true, {record: dbRecord}).json()
-    );
-})
+    return {status: 200, response: new Response(true, {record: dbRecord}).json()};
+};
 
 router.post('/update', async (req, res) => {
     let {collectionName, record} = req.body;
@@ -117,6 +113,7 @@ router.post('/update', async (req, res) => {
         res.status(500).json(
             new Response(false, {}, error.message).json()
         );
+        return;
     }
 
     res.status(200).json(
@@ -165,6 +162,7 @@ router.post('/delete', async (req, res) => {
         res.status(500).json(
             new Response(false, {}, error.message).json()
         );
+        return;
     }
 
     res.status(200).json(
@@ -232,3 +230,4 @@ async function hasPermission (collectionName, type, user, record, options) {
 }
 
 module.exports = router;
+module.exports.create = create;

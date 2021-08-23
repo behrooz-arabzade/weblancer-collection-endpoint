@@ -2,6 +2,15 @@ let express = require('express');
 const { createCollection, getAllCollections, updateSchema} = require('weblancer-collection');
 let router = express.Router();
 let Response = require('../../utils/response');
+const bodyParser = require('body-parser');
+const axios = require('axios');
+const {getAuthorizedUser} = require("../../utils/acl");
+const {create} = require("../collection/query");
+
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
+
+let _googleReCaptchaSecretKey;
 
 router.post('/install', async (req, res) => {
     let {success, collections, error, errorStatusCode} =
@@ -25,7 +34,9 @@ router.post('/install', async (req, res) => {
 
     let {success: createSuccess, collections: createCollections, error: createError, errorStatusCode: createErrorStatusCode} =
         await createCollection("contacts", "Contacts",
-            "", "Form App", {}, true);
+            "", "Form App", {
+            // TODO add acl
+            }, true);
 
     if (!createSuccess) {
         res.status(createErrorStatusCode || 500).json(
@@ -76,5 +87,56 @@ router.post('/install', async (req, res) => {
         );
     }
 });
+
+router.post('/postinstall', async (req, res) => {
+    let {metadata} = req.body;
+
+    if (metadata && metadata.googleReCaptchaSecretKey)
+        _googleReCaptchaSecretKey = metadata.googleReCaptchaSecretKey;
+
+    res.json(
+        new Response(true).json()
+    );
+});
+
+router.post('/submit', async (req, res) => {
+    let {collectionName, record} = req.body;
+
+    let {recaptcha, reCaptchaActive} = record;
+
+    if (reCaptchaActive && !await checkReCaptcha(recaptcha)) {
+        res.status(401).json(
+            new Response(false, {}, "Too many requests").json()
+        );
+        return;
+    }
+
+    delete record.recaptcha;
+    delete record.reCaptchaActive;
+
+    let user = getAuthorizedUser(req);
+
+    let {status, response} = await create(collectionName, record, user);
+
+    res.status(status).json(response);
+});
+
+let checkReCaptcha = async (token) => {
+    if (_googleReCaptchaSecretKey)
+        return true;
+
+    try{
+        const url = `https://www.google.com/recaptcha/api/siteverify`;
+        let response = await axios.post(url, {
+            secret: _googleReCaptchaSecretKey,
+            response: token
+        });
+
+        return response.data.success;
+    } catch (error) {
+        console.log("checkReCaptcha error", error)
+        return false;
+    }
+}
 
 module.exports = router;
