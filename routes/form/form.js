@@ -35,7 +35,12 @@ router.post('/install', async (req, res) => {
     let {success: createSuccess, collections: createCollections, error: createError, errorStatusCode: createErrorStatusCode} =
         await createCollection("contacts", "Contacts",
             "", "Form App", {
-            // TODO add acl
+                acl: {
+                    read: "admin",
+                    create: "all",
+                    update: "admin",
+                    delete: "admin"
+                }
             }, true);
 
     if (!createSuccess) {
@@ -91,13 +96,27 @@ router.post('/install', async (req, res) => {
 router.post('/postinstall', async (req, res) => {
     let {metadata} = req.body;
 
-    if (metadata && metadata.googleReCaptchaSecretKey)
-        _googleReCaptchaSecretKey = metadata.googleReCaptchaSecretKey;
+    setMetaData(metadata);
 
     res.json(
         new Response(true).json()
     );
 });
+
+router.post('/setmetadata', async (req, res) => {
+    let {metadata} = req.body;
+
+    setMetaData(metadata);
+
+    res.json(
+        new Response(true).json()
+    );
+});
+
+let setMetaData = async (metadata) => {
+    if (metadata && metadata.googleReCaptchaSecretKey)
+        _googleReCaptchaSecretKey = metadata.googleReCaptchaSecretKey;
+}
 
 router.post('/submit', async (req, res) => {
     let {collectionName, record} = req.body;
