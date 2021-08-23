@@ -28,6 +28,8 @@ app.use(unlessRoute([
     baseRoute + '/testdb',
     baseRoute + '/user/login',
     baseRoute + '/collection/edit/initsandbox',
+    baseRoute + '/form/install',
+    baseRoute + '/form/postinstall',
 ], authorizeToken));
 
 app.use(baseRoute + '/collection/edit', edit);
