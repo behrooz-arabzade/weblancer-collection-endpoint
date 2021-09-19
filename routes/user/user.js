@@ -23,7 +23,7 @@ router.post('/login', async (req, res) => {
             if (response.status === 200) {
                 let user = response.data.data.user;
 
-                let accessToken = generateAccessToken(user)
+                let accessToken = generateAccessToken(user);
                 res.json(
                     new Response(true, {accessToken}).json()
                 );
