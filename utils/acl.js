@@ -41,5 +41,5 @@ module.exports.getAuthorizedUser = (req) => {
 }
 
 module.exports.generateAccessToken = function generateAccessToken(user, expireTime = '30d') {
-    return jwt.sign(user, process.env.JWT_ACCESS_TOKEN_SECRET, {expiresIn: expireTime});
+    return jwt.sign(user, process.env.JWT_ACCESS_TOKEN_SECRET/*, {expiresIn: expireTime}*/);
 }
